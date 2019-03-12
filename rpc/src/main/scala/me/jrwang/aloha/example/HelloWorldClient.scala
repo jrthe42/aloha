@@ -1,0 +1,55 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package me.jrwang.aloha.example
+
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContext.Implicits.global
+
+import me.jrwang.aloha.common.AlohaConf
+import me.jrwang.aloha.rpc.{RpcAddress, RpcEndpointRef, RpcEnv}
+
+object HelloWorldClient {
+  def main(args: Array[String]): Unit = {
+    asyncCall()
+  }
+
+  def asyncCall() = {
+    val host = "localhost"
+    val rpcEnv: RpcEnv = RpcEnv.create("hello-serve", host, 52345, new AlohaConf, true)
+    val endPointRef: RpcEndpointRef = rpcEnv.retrieveEndpointRef(RpcAddress("localhost", 52345), "hello-service")
+    val future: Future[String] = endPointRef.ask[String](SayHi("neo"))
+    future.onComplete {
+      case Success(value) => println(s"Got the result = $value")
+      case Failure(e) => println(s"Got error: $e")
+    }
+    Await.result(future, Duration.apply("30s"))
+  }
+
+  def syncCall() = {
+    val host = "localhost"
+    val rpcEnv: RpcEnv = RpcEnv.create("hello-client", host, 52341, new AlohaConf, true)
+    val endPointRef: RpcEndpointRef = rpcEnv.retrieveEndpointRef(RpcAddress("localhost", 52345), "hello-service")
+    endPointRef.send(SayHi("hi"))
+    val hi = endPointRef.askSync[String](SayHi("Hi!"))
+    println(s"$hi")
+    val result = endPointRef.askSync[String](SayBye("Bye!"))
+    println(s"$result")
+  }
+}
