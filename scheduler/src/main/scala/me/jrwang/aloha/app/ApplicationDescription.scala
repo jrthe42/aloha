@@ -24,8 +24,7 @@ case class ApplicationDescription(
     args: String = null,
     memory: Int = 1024,
     cores: Int = 1,
-    supervise: Boolean = false
-  ) {
+    supervise: Boolean = false) {
 
     override def toString: String = s"ApplicationDescription($name, $entryPoint)"
   }

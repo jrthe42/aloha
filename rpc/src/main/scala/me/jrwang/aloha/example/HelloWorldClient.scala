@@ -32,11 +32,11 @@ object HelloWorldClient {
 
   def asyncCall() = {
     val host = "localhost"
-    val rpcEnv: RpcEnv = RpcEnv.create("hello-serve", host, 52345, new AlohaConf, true)
+    val rpcEnv: RpcEnv = RpcEnv.create("hello-client", host, 52345, new AlohaConf, true)
     val endPointRef: RpcEndpointRef = rpcEnv.retrieveEndpointRef(RpcAddress("localhost", 52345), "hello-service")
-    val future: Future[String] = endPointRef.ask[String](SayHi("neo"))
+    val future: Future[String] = endPointRef.ask[String](SayHi(""))
     future.onComplete {
-      case Success(value) => println(s"Got the result = $value")
+      case Success(value) => println(s"Got response: $value")
       case Failure(e) => println(s"Got error: $e")
     }
     Await.result(future, Duration.apply("30s"))

@@ -76,19 +76,19 @@ private[aloha] trait ConfigProvider {
 }
 
 private[aloha] class EnvProvider extends ConfigProvider {
-  override def get(key: String):Option[String] = sys.env.get(key)
+  override def get(key: String): Option[String] = sys.env.get(key)
 
   override def getAll: Iterable[(String, String)] = sys.env
 }
 
 private[aloha] class SystemProvider extends ConfigProvider {
-  override def get(key: String):Option[String] = sys.props.get(key)
+  override def get(key: String): Option[String] = sys.props.get(key)
 
   override def getAll: Iterable[(String, String)] = sys.props
 }
 
 private[aloha] class MapProvider(conf: JMap[String, String]) extends ConfigProvider {
-  override def get(key:String):Option[String] = Option(conf.get(key))
+  override def get(key:String): Option[String] = Option(conf.get(key))
 
   override def getAll: Iterable[(String, String)] = conf.asScala
 }
@@ -97,7 +97,7 @@ private[aloha] class MapProvider(conf: JMap[String, String]) extends ConfigProvi
   * A config provider that only reads Aloha config keys.
   */
 private[aloha] class AlohaConfigProvider(conf: JMap[String, String]) extends ConfigProvider {
-  override def get(key:String):Option[String] = {
+  override def get(key:String): Option[String] = {
     if (key.startsWith("aloha.")) {
       Option(conf.get(key))
     } else {

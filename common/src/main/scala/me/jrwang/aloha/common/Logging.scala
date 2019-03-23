@@ -30,7 +30,7 @@ private[aloha] trait Logging {
     this.getClass.getName.stripSuffix("$")
   }
 
-  protected def log:Logger = {
+  protected def log: Logger = {
     if (log_ == null) {
       initializeIfNecessary()
       log_ = LoggerFactory.getLogger(logName)
