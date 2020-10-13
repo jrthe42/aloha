@@ -42,7 +42,7 @@
         <commons-logging.version>1.2</commons-logging.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.21</slf4j.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <scalatest.version>2.2.6</scalatest.version>
 
         <profile.active>dev</profile.active>
