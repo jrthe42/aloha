@@ -121,6 +121,7 @@ class TransportClientFactory(
     clientPool.locks(clientIndex) synchronized {
       // Retrieve cache client again, since other thread may update it before.
       cachedClient = clientPool.clients(clientIndex)
+     //In java cachedClient will be inited by otherThread,it's not safe ,I wonder it will be safe in scala
       if (null != cachedClient) {
         if (cachedClient.isActive) {
           logTrace(s"Returing cached connection to $resolvedAddress: $cachedClient")
