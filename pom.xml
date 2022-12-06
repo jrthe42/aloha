@@ -27,7 +27,7 @@
         <guava.version>20.0</guava.version>
         <commons-lang3.version>3.5</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
-        <commons-net.version>3.5</commons-net.version>
+        <commons-net.version>3.9.0</commons-net.version>
 
         <netty.version>4.1.42.Final</netty.version>
 
